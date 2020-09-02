@@ -1,0 +1,19 @@
+# Specific files
++ .bashrc
++ .zshrc
++ .git/**
+
+# Log files
+- *.bak
+- *.log
+- *.tmp
+
+# DB dumps
+- *.sqlite2
+- *.sqlite3
+
+# Environmental directories
+- __pycache__/**
+- node_modules/**
+- env/**
+- pvl/target/**
