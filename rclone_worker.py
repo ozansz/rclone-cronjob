@@ -9,12 +9,26 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S',
     level=logging.INFO)
 
+with open(".env", "r") as fp:
+    for line in fp.readlines():
+        tokens = line.strip().split('=')
+
+        if len(tokens) == 2:
+            logging.info(f"New environment variable: {tokens}")
+            os.environ[tokens[0]] = tokens[1]
+
+ifttt_key = os.environ.get("IFTTT_KEY", None)
+
+if ifttt_key is None:
+    logging.error("Environment variable 'IFTTT_KEY' is None.")
+    exit(1)
+
 def print_usage():
     print(f"Usage: python3 {sys.argv[0]} <source> <dest> <job_id>")
 
 def send_telegram_event_message(event, *values):
     json_data = None
-    req_uri = f'https://maker.ifttt.com/trigger/{event}/with/key/dvC1theSjGrbiB3Dfnq_be'
+    req_uri = f'https://maker.ifttt.com/trigger/{event}/with/key/{ifttt_key}'
 
     if len(values) == 0:
         requests.post(req_uri)
